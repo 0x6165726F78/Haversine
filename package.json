@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "find-avg-value": "node ./src/find-avg-value.js",
+    "find-people": "node ./src/find-people.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "jest": "23.6.0"
+  },
+  "dependencies": {
+    "joi": "14.3.1"
+  }
+}
