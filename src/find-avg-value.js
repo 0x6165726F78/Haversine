@@ -10,7 +10,7 @@ const values = peopleService.peopleWithin({
   lat: Bristol.lat,
   lon: Bristol.lon,
   maxDistanceAwayInKm: 200,
-}).map(({ value }) => parseInt(value));
+}).map(({ value }) => value);
 
 const avgValue = calculateAverageValue(values);
 
