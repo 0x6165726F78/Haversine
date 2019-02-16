@@ -22,29 +22,28 @@ const peopleWithinParams = joi
   })
   .options({ abortEarly: false, convert: false });
 
-function peopleWithin(params) {
-  const { lat, lon, maxDistanceAwayInKm, country } = joi.attempt(params, peopleWithinParams);
-
-  return this._people.filter(
-    person =>
-      calculateDistanceInKm({
-        lat1: person.location.latitude,
-        lon1: person.location.longitude,
-        lat2: lat,
-        lon2: lon
-      }) <= maxDistanceAwayInKm && (country ? country === person.country : true)
-  );
-}
-
 function PeopleService(params) {
-  const { people, sort } = joi.attempt(params, constructorParamsSchema);
+  let { people, sort } = joi.attempt(params, constructorParamsSchema);
 
   if (sort) people.sort(sort);
 
   return {
-    _people: people,
     peopleWithin
   };
+
+  function peopleWithin(params) {
+    const { lat, lon, maxDistanceAwayInKm, country } = joi.attempt(params, peopleWithinParams);
+
+    return people.filter(
+      person =>
+        calculateDistanceInKm({
+          lat1: person.location.latitude,
+          lon1: person.location.longitude,
+          lat2: lat,
+          lon2: lon
+        }) <= maxDistanceAwayInKm && (country ? country === person.country : true)
+    );
+  }
 }
 
 module.exports = {
